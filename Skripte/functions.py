@@ -179,17 +179,6 @@ scrape_folder = 'RandomPeople/'
 #video_to_images(video_path, video_frames_folder, frame_rate=2,max_frames=100, gray=True, equalize_hist=True)
 #scrape_images(100, scrape_folder, gray=False, equalize_hist=True)
 
-image = cv2.imread('Me/frames/frame_1.jpg')
-cv2.imshow('frame', image)
-image = adjust_contrast(image)
-image = adjust_brightness(image)
-image = random_crop(image)
-image = horizontal_flip(image)
-cv2.imshow('frame2', image)
-
-while True:
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
 
 
 
