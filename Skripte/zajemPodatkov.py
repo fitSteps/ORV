@@ -19,5 +19,5 @@ def scrape_images(num_images, folder_path):
         else:
             print(f"Failed to retrieve image {i+1}, Status code: {response.status_code}")
 
-folder_path = "TPDNE_images"
+folder_path = "../TPDNE_images"
 scrape_images(100, folder_path)
