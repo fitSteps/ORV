@@ -5,10 +5,6 @@ from io import BytesIO
 import cv2
 import time
 import numpy as np
-import numba
-from numba import jit, prange
-
-
 
 
 def konvolucija(slika, jedro):
@@ -176,9 +172,8 @@ def adjust_contrast(image):
 video_path = 'Me/kuplen.mp4'
 video_frames_folder = 'Me/frames/'
 scrape_folder = 'RandomPeople/'
-#video_to_images(video_path, video_frames_folder, frame_rate=2,max_frames=100, gray=True, equalize_hist=True)
-#scrape_images(100, scrape_folder, gray=False, equalize_hist=True)
-
+#video_to_images(video_path, video_frames_folder, frame_rate=2,max_frames=100, gray=False, equalize_hist=True)
+#scrape_images(99, scrape_folder, gray=False, equalize_hist=True)
 
 
 
