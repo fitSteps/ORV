@@ -170,8 +170,11 @@ def adjust_contrast(image):
 
 
 video_path = 'Me/kuplen.mp4'
+video_testpath = 'Me/test.mp4'
 video_frames_folder = 'Me/frames/'
+video_testfolder = 'Me\\test_images_me'
 scrape_folder = 'RandomPeople/'
+scrape_testfolder = 'Me\Random_testfolder'
 #video_to_images(video_path, video_frames_folder, frame_rate=2,max_frames=100, gray=False, equalize_hist=True)
 #scrape_images(99, scrape_folder, gray=False, equalize_hist=True)
 

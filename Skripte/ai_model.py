@@ -7,13 +7,15 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from PIL import Image
 from tensorflow.keras.utils import Sequence
+from functions import horizontal_flip, adjust_brightness, random_crop, adjust_contrast
 
-# Define custom data loader
+
 class CustomDataLoader(Sequence):
-    def __init__(self, image_paths, labels, batch_size):
+    def __init__(self, image_paths, labels, batch_size, augment=False):
         self.image_paths = np.array(image_paths)
         self.labels = np.array(labels)
         self.batch_size = batch_size
+        self.augment = augment
 
     def __len__(self):
         return int(np.ceil(len(self.image_paths) / self.batch_size))
@@ -24,7 +26,22 @@ class CustomDataLoader(Sequence):
         batch_image_paths = self.image_paths[start:end]
         batch_labels = self.labels[start:end]
         
-        batch_images = [np.array(Image.open(path).resize((224, 224))) / 255.0 for path in batch_image_paths]
+        batch_images = []
+        for path in batch_image_paths:
+            image = np.array(Image.open(path).resize((224, 224)))  # Resize the image first
+            image = image / 255.0  # Normalize to [0, 1]
+
+            if self.augment:
+                image = horizontal_flip(image)
+                image = adjust_brightness(image)
+                image = adjust_contrast(image)
+                try:
+                    image = random_crop(image)  # Ensure image can be cropped
+                except ValueError:
+                    pass  # Skip cropping if the random size is invalid
+
+            batch_images.append(image)
+
         return np.array(batch_images), np.array(batch_labels)
 
 # Load the VGG16 model without the top layer (classifier)
@@ -59,11 +76,12 @@ image_paths = np.array(image_paths)[indices]
 labels = np.array(labels)[indices]
 
 # Data loader setup
-batch_size = 32
-data_loader = CustomDataLoader(image_paths, labels, batch_size)
+batch_size = 8
+train_data_loader = CustomDataLoader(image_paths, labels, batch_size, augment=True)
 
 # Train the model
-model.fit(data_loader, epochs=10)
+model.fit(train_data_loader, epochs=10)
+
 
 # Save the trained model
 model.save('face_verification_model.h5')
