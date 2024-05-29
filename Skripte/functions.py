@@ -53,9 +53,9 @@ def obdelava_slike(image):
     if isinstance(image, np.ndarray):
         image = Image.fromarray(image) 
 
-    image = image.resize((128+16, 128+16))
+    image = image.resize((244+16, 244+16))
     image = Image.fromarray(filtriraj_z_gaussovim_jedrom(np.array(image), sigma=1))
-    image = image.crop((8, 8, 128+8, 128+8))
+    image = image.crop((8, 8, 244+8, 244+8))
     #image = Image.fromarray(linearizacija_sivin(np.array(image)))
     return image
 
