@@ -7,7 +7,7 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from PIL import Image
 from tensorflow.keras.utils import Sequence
-from functions import horizontal_flip, adjust_brightness, random_crop, adjust_contrast
+from functions import augm_horizontal_flip, augm_adjust_brightness, augm_random_crop, augm_adjust_contrast
 
 
 class CustomDataLoader(Sequence):
@@ -29,17 +29,16 @@ class CustomDataLoader(Sequence):
         batch_images = []
         for path in batch_image_paths:
             image = np.array(Image.open(path).resize((224, 224)))  # Resize the image first
-            image = image / 255.0  # Normalize to [0, 1]
 
             if self.augment:
-                image = horizontal_flip(image)
-                image = adjust_brightness(image)
-                image = adjust_contrast(image)
+                image = augm_horizontal_flip(image)
+                image = augm_adjust_brightness(image,50)
+                image = augm_adjust_contrast(image, 0.2)
                 try:
-                    image = random_crop(image)  # Ensure image can be cropped
+                    image = augm_random_crop(image, 1.1)  # Ensure image can be cropped
                 except ValueError:
                     pass  # Skip cropping if the random size is invalid
-
+            image = image / 255.0  # Normalize to [0, 1]
             batch_images.append(image)
 
         return np.array(batch_images), np.array(batch_labels)
@@ -61,7 +60,7 @@ model.compile(optimizer=Adam(lr=0.0001), loss='binary_crossentropy', metrics=['a
 
 # Assuming folders 'me' and 'others' are directly under 'data/'
 me_dir = 'Me\\frames'
-others_dir = 'RandomPeople'
+others_dir = 'Me\\cimri'
 me_images = [os.path.join(me_dir, img) for img in os.listdir(me_dir)]
 others_images = [os.path.join(others_dir, img) for img in os.listdir(others_dir)]
 
@@ -80,7 +79,7 @@ batch_size = 8
 train_data_loader = CustomDataLoader(image_paths, labels, batch_size, augment=True)
 
 # Train the model
-model.fit(train_data_loader, epochs=10)
+model.fit(train_data_loader, epochs=15)
 
 
 # Save the trained model
