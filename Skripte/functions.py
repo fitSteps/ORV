@@ -48,12 +48,10 @@ def scrape_images(num_images, folder_path):
 
 def video_to_images(video_path, output_folder, frame_rate=1, max_frames=100):
 
-    # Ensure output directory exists
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
         print(f"Created directory: {output_folder}")
 
-    # Capture video
     video = cv2.VideoCapture(video_path)
     if not video.isOpened():
         print("Error: Could not open video.")
@@ -63,26 +61,21 @@ def video_to_images(video_path, output_folder, frame_rate=1, max_frames=100):
     image_id = 0
 
     while True:
-        # Read next frame from video
         success, frame = video.read()
         if not success:
-            break  # No more frames or error
+            break 
         if frame_id >= max_frames:
             break
 
-        # Save frame as JPEG file
         if frame_id % frame_rate == 0:
 
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             frame = obdelava_slike(frame)
 
-
-            # Convert back to array for saving
             if isinstance(frame, Image.Image):
                 frame = np.array(frame)
 
-            # Ensure the image is in BGR format if it is still in RGB
-            if frame.shape[-1] == 3:  # Only if it's a color image
+            if frame.shape[-1] == 3: 
                 frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
             image_path = os.path.join(output_folder, f"frame_{image_id}.jpg")
@@ -100,31 +93,28 @@ def augm_horizontal_flip(image):
         return image
     return cv2.flip(image, 1)
 
-def augm_adjust_brightness(image):
+def augm_adjust_brightness(image, value=12):
     image = image.astype(np.int16)  
-    image += np.random.randint(-10, 10)
+    image += np.random.randint(-value, value)
     image = np.clip(image, 0, 255) 
     return image.astype(np.uint8)
 
-def augm_random_crop(image):
+def augm_random_crop(image, crop_ratio=1.05):
     height, width = image.shape[:2]
-    crop_height = np.random.randint(height // 1.05, height)
-    crop_width = np.random.randint(width // 1.05, width)
+    crop_height = np.random.randint(height // crop_ratio, height)
+    crop_width = np.random.randint(width // crop_ratio, width)
     top = np.random.randint(0, height - crop_height)
     left = np.random.randint(0, width - crop_width)
     return cv2.resize(image[top:top + crop_height, left:left + crop_width], (width, height))
 
-def augm_adjust_contrast(image):
-    # Pretvori sliko v float za preprečevanje izgube podatkov
+def augm_adjust_contrast(image,factor_ratio=0.05):
     image = image.astype(np.float32)
-    factor = np.random.uniform(0.95, 1.05)  # Naključni faktor kontrasta
-    
-    # Središčenje pikslov okoli 128 in prilagajanje kontrasta
+    factor = np.random.uniform(1-factor_ratio, 1+factor_ratio) 
     mean = 128
     image = (image - mean) * factor + mean
-    image = np.clip(image, 0, 255)  # Omeji vrednosti nazaj na [0, 255]
-
+    image = np.clip(image, 0, 255) 
     return image.astype(np.uint8)
+
 
 
 video_path = 'Me/kuplen.mp4'
