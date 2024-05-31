@@ -12,7 +12,7 @@ def load_and_preprocess_image(image_path, target_size=(224, 224)):
     img = np.expand_dims(img, axis=0)  # Add batch dimension
     return img
 
-def predict_image(model_path, image_path):
+def predict_image(model_path, image_path, label):
     # Load the pre-trained model
     model = load_model(model_path)
 
@@ -21,19 +21,21 @@ def predict_image(model_path, image_path):
 
     # Make a prediction
     prediction = model.predict(img)
-    print("Prediction score:", prediction)
+    print("Prediction score for "+ label+" :", prediction)
 
     # Interpret the prediction
-    if prediction < 0.5:
-        print("The image is classified as NOT YOU.")
-    else:
-        print("The image is classified as YOU.")
+    #if prediction < 0.5:
+     #   print("The image is classified as NOT YOU.")
+   # else:
+     #   print("The image is classified as YOU.")
 
 # Specify the paths
 model_path = 'face_verification_model.h5'
-test_image_path = 'Me\\patrick.jpg'  # Update this path to your test image
-#test_image_path = 'Me\\test_images_me\\frame_10.jpg'  # Update this path to your test image
-#test_image_path = 'Me\\Random_testfolder\\image_54.jpg'  # Update this path to your test image
+test_image_path_patrick = 'Me\\patrick.jpg'  # Update this path to your test image
+test_image_path_me = 'Me\\test_images_me\\frame_10.jpg'  # Update this path to your test image
+test_image_path_random = 'Me\\Random_testfolder\\image_54.jpg'  # Update this path to your test image
 
 # Run the prediction function
-predict_image(model_path, test_image_path)
+predict_image(model_path, test_image_path_patrick, "patrick")
+predict_image(model_path, test_image_path_me, "js")
+predict_image(model_path, test_image_path_random, "random")
