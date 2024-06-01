@@ -1,8 +1,8 @@
 # Use an official Python runtime as a parent image
-FROM python:3.10-slim
+FROM python:3.10.7
 
 # Set the working directory in the container
-WORKDIR /usr/src/app
+WORKDIR /usr/src/orv
 
 # Copy the current directory contents into the container at /usr/src/app
 COPY . .
@@ -19,4 +19,4 @@ EXPOSE 80
 ENV NAME World
 
 # Run ai_model.py when the container launches
-CMD ["python", "functions.py"]
+CMD ["python", "Skripte/startup.py"]
