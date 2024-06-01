@@ -32,7 +32,7 @@ def predict_image(model_path, image_path, label):
 # Specify the paths
 model_path = 'face_verification_model.h5'
 test_image_path_patrick = 'Me\\patrick.jpg'  # Update this path to your test image
-test_image_path_me = 'Me\\test_images_me\\frame_10.jpg'  # Update this path to your test image
+test_image_path_me = 'Me\\test_images_me\\frame_50.jpg'  # Update this path to your test image
 test_image_path_random = 'Me\\Random_testfolder\\image_54.jpg'  # Update this path to your test image
 
 # Run the prediction function
