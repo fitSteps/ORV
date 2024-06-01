@@ -124,8 +124,14 @@ video_testfolder = 'Me\\test_images_me'
 scrape_folder = 'RandomPeople/'
 scrape_testfolder = 'Me\Random_testfolder'
 #video_to_images(video_path, video_frames_folder, frame_rate=1,max_frames=100)
-#scrape_images(5, scrape_folder)
+#scrape_images(100, scrape_folder)
+#video_to_images('Me\\dalsi_video_mene.mp4', video_frames_folder, frame_rate=1,max_frames=200000)
+#video_to_images('Me/tina.mp4', 'Me\\cimri\\tina', frame_rate=1,max_frames=20)
+#video_to_images('Me/lara.mp4', 'Me\\cimri\\lara', frame_rate=1,max_frames=20)
+#video_to_images('Me/patrick.mp4', 'Me\\cimri\\patrick', frame_rate=1,max_frames=20)
+#video_to_images('Me/domen.mp4', 'Me\\cimri\\domen', frame_rate=1,max_frames=20)
 
+#scrape_images(504, scrape_testfolder)
 
 
 
