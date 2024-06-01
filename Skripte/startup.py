@@ -1,7 +1,7 @@
 import functions
 import paho.mqtt.client as mqtt
 
-functions.scrape_folder(500, "./scraped_images")
+functions.scrape_images(500, "./scraped_images")
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
