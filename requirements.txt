@@ -14,3 +14,6 @@ flask==2.1.2
 # Data manipulation and numerical operations
 numpy==1.22.3
 pandas==1.4.1
+
+# Network requests
+requests==2.27.1
