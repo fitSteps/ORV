@@ -8,7 +8,7 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import Sequence
 from tensorflow.keras.callbacks import LearningRateScheduler
-from functions import augm_horizontal_flip, augm_adjust_brightness, augm_random_crop, augm_adjust_contrast
+from functions import augm_horizontal_flip, augm_adjust_brightness, augm_random_crop, augm_adjust_contrast, video_to_images
 from PIL import ImageFile
 import argparse
 import subprocess
@@ -19,17 +19,7 @@ parser = argparse.ArgumentParser(description='Process the MQTT message for the A
 parser.add_argument('mqtt_message', type=str, help='MQTT message payload')
 args = parser.parse_args()
 
-def run_docker_commands():
-    container_name = "orv_container"
-    try:
-        # Execute commands in the Docker container using one subprocess call
-        command = "docker exec -i {} /bin/sh -c 'cd /app/videos && ls'".format(container_name)
-        result = subprocess.run(command, shell=True, text=True, capture_output=True, check=True)
-        print(result.stdout)  # Print the output of the 'ls' command
-    except subprocess.CalledProcessError as e:
-        print(f"An error occurred: {e}")
-run_docker_commands()
-"""
+
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 class CustomDataLoader(Sequence):
@@ -84,9 +74,13 @@ predictions = Dense(1, activation='sigmoid')(x)  # Binary output
 model = Model(inputs=base_model.input, outputs=predictions)
 model.compile(optimizer=Adam(lr=0.000001), loss='binary_crossentropy', metrics=['accuracy'])
 
-# Assuming folders 'me' and 'others' are directly under 'data/'
-me_dir = 'Me\\frames'
-others_dir = 'Me\\Random_testfolder'
+
+me_dir = '..\\frames'
+video_path = f'..\\app\\videos\\{args.mqtt_message}.mp4'
+video_to_images(video_path, me_dir, frame_rate=1,max_frames=200000)
+
+others_dir = '..\\scraped_images'
+
 me_images = [os.path.join(me_dir, img) for img in os.listdir(me_dir)]
 others_images = [os.path.join(others_dir, img) for img in os.listdir(others_dir)]
 
@@ -117,5 +111,5 @@ lr_scheduler = LearningRateScheduler(scheduler)
 model.fit(train_data_loader, epochs=15, callbacks=[lr_scheduler])
 
 # Save the trained model
-model.save('face_verification_model.h5')
-"""
+model.save('..\\face_verification_model.h5')
+
