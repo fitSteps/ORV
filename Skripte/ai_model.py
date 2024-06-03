@@ -79,7 +79,7 @@ me_dir = '/frames'
 video_path = f'/app/videos/{args.mqtt_message}.mp4'
 video_to_images(video_path, me_dir, frame_rate=1,max_frames=200000)
 
-others_dir = '/scraped_images'
+others_dir = '/usr/src/orv/scraped_images'
 
 me_images = [os.path.join(me_dir, img) for img in os.listdir(me_dir)]
 others_images = [os.path.join(others_dir, img) for img in os.listdir(others_dir)]
@@ -109,10 +109,10 @@ lr_scheduler = LearningRateScheduler(scheduler)
 
 # Train the model with the learning rate scheduler
 model.fit(train_data_loader, epochs=15, callbacks=[lr_scheduler])
-output_folder='ai_models'
+output_folder='/ai_models'
 # Save the trained model
 if not os.path.exists(output_folder):
         os.makedirs(output_folder)
         print(f"Created directory: {output_folder}")
-model.save('ai_models/{args.mqtt_message}.h5')
+model.save('/ai_models/{args.mqtt_message}.h5')
 
