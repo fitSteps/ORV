@@ -75,11 +75,11 @@ model = Model(inputs=base_model.input, outputs=predictions)
 model.compile(optimizer=Adam(lr=0.000001), loss='binary_crossentropy', metrics=['accuracy'])
 
 
-me_dir = '..\\frames'
-video_path = f'..\\app\\videos\\{args.mqtt_message}.mp4'
+me_dir = '../frames'
+video_path = f'../app/videos/{args.mqtt_message}.mp4'
 video_to_images(video_path, me_dir, frame_rate=1,max_frames=200000)
 
-others_dir = '..\\scraped_images'
+others_dir = '../scraped_images'
 
 me_images = [os.path.join(me_dir, img) for img in os.listdir(me_dir)]
 others_images = [os.path.join(others_dir, img) for img in os.listdir(others_dir)]
@@ -111,5 +111,5 @@ lr_scheduler = LearningRateScheduler(scheduler)
 model.fit(train_data_loader, epochs=15, callbacks=[lr_scheduler])
 
 # Save the trained model
-model.save('..\\face_verification_model.h5')
+model.save('../face_verification_model.h5')
 
