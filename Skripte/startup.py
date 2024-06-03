@@ -31,7 +31,7 @@ def on_message(client, userdata, msg):
         # Run ai_model.py with the MQTT message as an argument
         subprocess.run(['python', 'ai_model.py', message_content])
     elif msg.topic == "video":
-        client.publish(RESPONSE_TOPIC, "video")
+        client.publish(RESPONSE_TOPIC, "video"+message_content)
         print("Published 'video' to topic 'test'")
         # Run model_test.py with the MQTT message as an argument
         subprocess.run(['python', 'ai_model.py', message_content])
