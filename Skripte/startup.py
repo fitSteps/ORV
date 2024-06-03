@@ -29,12 +29,12 @@ def on_message(client, userdata, msg):
         client.publish(RESPONSE_TOPIC, "image")
         print("Published 'image' to topic 'test'")
         # Run ai_model.py with the MQTT message as an argument
-        subprocess.run(['python', 'ai_model.py', message_content])
+        subprocess.run(['python', 'Skripte/model_test.py', message_content])
     elif msg.topic == "video":
         client.publish(RESPONSE_TOPIC, "video"+message_content)
         print("Published 'video' to topic 'test'")
         # Run model_test.py with the MQTT message as an argument
-        subprocess.run(['python', 'ai_model.py', message_content])
+        subprocess.run(['python', 'Skripte/ai_model.py', message_content])
 
 def on_disconnect(client, userdata, rc):
     print("Disconnected from MQTT broker with result code " + str(rc))
