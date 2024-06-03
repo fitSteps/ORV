@@ -3,6 +3,12 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from PIL import Image
+import argparse
+
+# Setup command line argument parsing
+parser = argparse.ArgumentParser(description='Process the MQTT message for testing the model.')
+parser.add_argument('mqtt_message', type=str, help='MQTT message payload')
+args = parser.parse_args()
 
 def load_and_preprocess_image(image_path, target_size=(224, 224)):
     # Load the image

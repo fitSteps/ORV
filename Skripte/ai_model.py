@@ -10,6 +10,12 @@ from tensorflow.keras.utils import Sequence
 from tensorflow.keras.callbacks import LearningRateScheduler
 from functions import augm_horizontal_flip, augm_adjust_brightness, augm_random_crop, augm_adjust_contrast
 from PIL import ImageFile
+import argparse
+
+# Setup command line argument parsing
+parser = argparse.ArgumentParser(description='Process the MQTT message for the AI model.')
+parser.add_argument('mqtt_message', type=str, help='MQTT message payload')
+args = parser.parse_args()
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
