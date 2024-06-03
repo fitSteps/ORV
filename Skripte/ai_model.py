@@ -11,12 +11,25 @@ from tensorflow.keras.callbacks import LearningRateScheduler
 from functions import augm_horizontal_flip, augm_adjust_brightness, augm_random_crop, augm_adjust_contrast
 from PIL import ImageFile
 import argparse
+import subprocess
+
 
 # Setup command line argument parsing
 parser = argparse.ArgumentParser(description='Process the MQTT message for the AI model.')
 parser.add_argument('mqtt_message', type=str, help='MQTT message payload')
 args = parser.parse_args()
 
+def run_docker_commands():
+    container_name = "orv_container"
+    try:
+        # Execute commands in the Docker container using one subprocess call
+        command = "docker exec -i {} /bin/sh -c 'cd /app/videos && ls'".format(container_name)
+        result = subprocess.run(command, shell=True, text=True, capture_output=True, check=True)
+        print(result.stdout)  # Print the output of the 'ls' command
+    except subprocess.CalledProcessError as e:
+        print(f"An error occurred: {e}")
+run_docker_commands()
+"""
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 class CustomDataLoader(Sequence):
@@ -105,3 +118,4 @@ model.fit(train_data_loader, epochs=15, callbacks=[lr_scheduler])
 
 # Save the trained model
 model.save('face_verification_model.h5')
+"""
