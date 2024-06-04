@@ -51,7 +51,7 @@ def predict_image(model_path, image_path):
     # Make a prediction
     prediction = model.predict(img)
 
-    if prediction > 0.8:
+    if prediction > 0.6:
         client.publish(RESPONSE_TOPIC, f"Authenticated  {prediction}")
         #print("succ"+prediction)
     else:
