@@ -60,5 +60,11 @@ def predict_image(model_path, image_path):
 model_path = f'/ai_models/{args.mqtt_message}.h5'
 image_path = f'/app/photos/{args.mqtt_message}.jpg' 
 
+try:
+    client.connect(MQTT_BROKER, MQTT_PORT, 60)
+    client.loop_forever()
+except Exception as e:
+    print(f"Could not connect to MQTT broker: {e}")
+
 # Run the prediction function
 predict_image(model_path, image_path)
