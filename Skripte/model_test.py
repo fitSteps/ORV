@@ -19,7 +19,7 @@ MQTT_BROKER = "172.201.117.179"
 MQTT_PORT = 1883
 RESPONSE_TOPIC = f"topic/{args.mqtt_message}"  # Topic to publish responses to
 
-# Define event callbacks
+# Define event callback
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("Connected successfully.")
