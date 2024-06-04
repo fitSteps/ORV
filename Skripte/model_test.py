@@ -4,7 +4,7 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 from PIL import Image
 import argparse
-import paho.mqtt.client as mqtt
+#import paho.mqtt.client as mqtt
 
 
 # Setup command line argument parsing
