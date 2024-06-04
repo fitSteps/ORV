@@ -52,9 +52,9 @@ def predict_image(model_path, image_path):
 
     if prediction > 0.8:
         client.publish(RESPONSE_TOPIC, "Authenticated")
-        print("succ"+prediction)
+        #print("succ"+prediction)
     else:
-        print("fail"+prediction)
+        #print("fail"+prediction)
         client.publish(RESPONSE_TOPIC, "Not authenticated")
 # Specify the paths
 model_path = f'/ai_models/{args.mqtt_message}.h5'
