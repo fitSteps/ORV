@@ -4,14 +4,14 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 from PIL import Image
 import argparse
-#import paho.mqtt.client as mqtt
+import paho.mqtt.client as mqtt
 
 
 # Setup command line argument parsing
 parser = argparse.ArgumentParser(description='Process the MQTT message for testing the model.')
 parser.add_argument('mqtt_message', type=str, help='MQTT message payload')
 args = parser.parse_args()
-''''
+
 # MQTT Settings
 MQTT_BROKER = "172.201.117.179"
 MQTT_PORT = 1883
@@ -31,7 +31,7 @@ def on_disconnect(client, userdata, rc):
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_disconnect = on_disconnect
- '''
+
 def load_and_preprocess_image(image_path, target_size=(224, 224)):
     # Load the image
     img = Image.open(image_path)
@@ -51,14 +51,14 @@ def predict_image(model_path, image_path):
     prediction = model.predict(img)
 
     if prediction < 0.8:
-        #client.publish(RESPONSE_TOPIC, "Authenticated")
+        client.publish(RESPONSE_TOPIC, "Authenticated")
         print("haha")
     else:
         print("hehe")
-        #client.publish(RESPONSE_TOPIC, "Not authenticated")
+        client.publish(RESPONSE_TOPIC, "Not authenticated")
 # Specify the paths
-#model_path = f'/ai_models/{args.mqtt_message}.h5'
-#image_path = f'/app/photos/{args.mqtt_message}.jpg' 
+model_path = f'/ai_models/{args.mqtt_message}.h5'
+image_path = f'/app/photos/{args.mqtt_message}.jpg' 
 
 # Run the prediction function
-#predict_image(model_path, image_path)
+predict_image(model_path, image_path)
