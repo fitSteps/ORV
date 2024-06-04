@@ -108,11 +108,11 @@ def scheduler(epoch, lr):
 lr_scheduler = LearningRateScheduler(scheduler)
 
 # Train the model with the learning rate scheduler
-model.fit(train_data_loader, epochs=15, callbacks=[lr_scheduler])
+model.fit(train_data_loader, epochs=13, callbacks=[lr_scheduler])
 output_folder='/ai_models'
 # Save the trained model
 if not os.path.exists(output_folder):
         os.makedirs(output_folder)
         print(f"Created directory: {output_folder}")
-model.save('/ai_models/{args.mqtt_message}.h5')
+model.save(f'/ai_models/{args.mqtt_message}.h5')
 

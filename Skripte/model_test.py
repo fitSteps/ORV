@@ -34,14 +34,11 @@ def predict_image(model_path, image_path, label):
      #   print("The image is classified as NOT YOU.")
    # else:
      #   print("The image is classified as YOU.")
-
 # Specify the paths
-model_path = 'face_verification_model.h5'
-test_image_path_patrick = 'Me\\patrick.jpg'  # Update this path to your test image
-test_image_path_me = 'Me\\test_images_me\\frame_50.jpg'  # Update this path to your test image
-test_image_path_random = 'Me\\Random_testfolder\\image_54.jpg'  # Update this path to your test image
+model_path = f'/ai_models/{args.mqtt_message}.h5'
+image_path = 'Me\\test_images_me\\frame_50.jpg' 
 
 # Run the prediction function
-predict_image(model_path, test_image_path_patrick, "patrick")
-predict_image(model_path, test_image_path_me, "js")
-predict_image(model_path, test_image_path_random, "random")
+#predict_image(model_path, test_image_path_patrick, "patrick")
+#predict_image(model_path, test_image_path_me, "js")
+#predict_image(model_path, test_image_path_random, "random")
