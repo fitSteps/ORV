@@ -21,6 +21,7 @@ RESPONSE_TOPIC = f"topic/{args.mqtt_message}"  # Topic to publish responses to
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("Connected successfully.")
+        
     else:
         print(f"Connection failed with code {rc}")
 
@@ -61,8 +62,8 @@ model_path = f'/ai_models/{args.mqtt_message}.h5'
 image_path = f'/app/photos/{args.mqtt_message}.jpg' 
 
 try:
-    predict_image(model_path, image_path)
     client.connect(MQTT_BROKER, MQTT_PORT, 60)
+    predict_image(model_path, image_path)
     client.loop_forever()
 except Exception as e:
     print(f"Could not connect to MQTT broker: {e}")
