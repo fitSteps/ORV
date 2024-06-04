@@ -57,8 +57,8 @@ def predict_image(model_path, image_path):
         print("hehe")
         #client.publish(RESPONSE_TOPIC, "Not authenticated")
 # Specify the paths
-model_path = f'/ai_models/{args.mqtt_message}.h5'
-image_path = f'/app/photos/{args.mqtt_message}.jpg' 
+#model_path = f'/ai_models/{args.mqtt_message}.h5'
+#image_path = f'/app/photos/{args.mqtt_message}.jpg' 
 
 # Run the prediction function
-predict_image(model_path, image_path)
+#predict_image(model_path, image_path)
