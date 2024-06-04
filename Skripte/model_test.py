@@ -5,9 +5,7 @@ from tensorflow.keras.models import load_model
 from PIL import Image
 import argparse
 import paho.mqtt.client as mqtt
-import signal
-import sys
-import subprocess
+
 
 # Setup command line argument parsing
 parser = argparse.ArgumentParser(description='Process the MQTT message for testing the model.')
