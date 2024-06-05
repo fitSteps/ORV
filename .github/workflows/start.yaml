@@ -1,7 +1,6 @@
 name: Zazeni orv
 
-#on: [push, pull_request]
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build-and-deploy:
