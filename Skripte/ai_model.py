@@ -77,7 +77,7 @@ model.compile(optimizer=Adam(lr=0.000001), loss='binary_crossentropy', metrics=[
 
 me_dir = '/frames'
 video_path = f'/app/videos/{args.mqtt_message}.mp4'
-video_to_images(video_path, me_dir, frame_rate=1,max_frames=200000)
+video_to_images(video_path, me_dir, frame_rate=1,max_frames=600)
 
 others_dir = '/usr/src/orv/scraped_images'
 
