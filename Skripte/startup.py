@@ -2,6 +2,8 @@ import functions
 import paho.mqtt.client as mqtt
 import signal
 import sys
+import subprocess
+
 
 # MQTT Settings
 MQTT_BROKER = "172.201.117.179"
@@ -26,9 +28,13 @@ def on_message(client, userdata, msg):
     if msg.topic == "image":
         client.publish(RESPONSE_TOPIC, "image")
         print("Published 'image' to topic 'test'")
+        # Run ai_model.py with the MQTT message as an argument
+        subprocess.run(['python', 'Skripte/model_test.py', message_content])
     elif msg.topic == "video":
-        client.publish(RESPONSE_TOPIC, "video")
+        client.publish(RESPONSE_TOPIC, "video"+message_content)
         print("Published 'video' to topic 'test'")
+        # Run model_test.py with the MQTT message as an argument
+        subprocess.run(['python', 'Skripte/ai_model.py', message_content])
 
 def on_disconnect(client, userdata, rc):
     print("Disconnected from MQTT broker with result code " + str(rc))
@@ -50,7 +56,7 @@ signal.signal(signal.SIGINT, handle_sigterm)  # Also handle Ctrl-C gracefully
 
 try:
     print("Scraping images")
-    functions.scrape_images(10, "./scraped_images")
+    functions.scrape_images(500, "./scraped_images")
     print("Scraping finished")
     client.connect(MQTT_BROKER, MQTT_PORT, 60)
     client.loop_forever()  # Use loop_forever instead of loop_start

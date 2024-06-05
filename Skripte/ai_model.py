@@ -8,8 +8,17 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import Sequence
 from tensorflow.keras.callbacks import LearningRateScheduler
-from functions import augm_horizontal_flip, augm_adjust_brightness, augm_random_crop, augm_adjust_contrast
+from functions import augm_horizontal_flip, augm_adjust_brightness, augm_random_crop, augm_adjust_contrast, video_to_images
 from PIL import ImageFile
+import argparse
+import subprocess
+
+
+# Setup command line argument parsing
+parser = argparse.ArgumentParser(description='Process the MQTT message for the AI model.')
+parser.add_argument('mqtt_message', type=str, help='MQTT message payload')
+args = parser.parse_args()
+
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -65,9 +74,13 @@ predictions = Dense(1, activation='sigmoid')(x)  # Binary output
 model = Model(inputs=base_model.input, outputs=predictions)
 model.compile(optimizer=Adam(lr=0.000001), loss='binary_crossentropy', metrics=['accuracy'])
 
-# Assuming folders 'me' and 'others' are directly under 'data/'
-me_dir = 'Me\\frames'
-others_dir = 'Me\\Random_testfolder'
+
+me_dir = '/frames'
+video_path = f'/app/videos/{args.mqtt_message}.mp4'
+video_to_images(video_path, me_dir, frame_rate=1,max_frames=200000)
+
+others_dir = '/usr/src/orv/scraped_images'
+
 me_images = [os.path.join(me_dir, img) for img in os.listdir(me_dir)]
 others_images = [os.path.join(others_dir, img) for img in os.listdir(others_dir)]
 
@@ -96,6 +109,10 @@ lr_scheduler = LearningRateScheduler(scheduler)
 
 # Train the model with the learning rate scheduler
 model.fit(train_data_loader, epochs=15, callbacks=[lr_scheduler])
-
+output_folder='/ai_models'
 # Save the trained model
-model.save('face_verification_model.h5')
+if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+        print(f"Created directory: {output_folder}")
+model.save(f'/ai_models/{args.mqtt_message}.h5')
+
