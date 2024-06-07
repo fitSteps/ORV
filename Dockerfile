@@ -22,6 +22,7 @@ ENV NAME World
 # Ensure these directories match those specified in your docker run command
 RUN mkdir -p /app/photos
 RUN mkdir -p /app/videos
+RUN mkdir -p /ai_models
 
 # Set the CMD to your startup script
 # Ensure this is the correct path to your Python script that starts your app

@@ -43,6 +43,7 @@ jobs:
           -p 3000:3000 \
           -v app_photos:/app/photos \
           -v app_videos:/app/videos \
+          -v ai_models:/ai_models \
           ${{ secrets.DOCKER_USERNAME }}/orv:${{ github.sha }}
 
         # Optional: Clean up - remove unused Docker images
