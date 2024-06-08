@@ -25,11 +25,11 @@ jobs:
         # Push the image to Docker Hub
         docker push ${{ secrets.DOCKER_USERNAME }}/orv:${{ github.sha }}
 
-    - name: Stop existing containers on port 80
+    - name: Stop existing containers on port 3000
       run: |
-        # Find containers using port 80 and stop them
-        docker ps -q --filter "expose=80" | xargs -r docker stop
-        docker ps -aq --filter "expose=80" | xargs -r docker rm
+        # Find containers using port 3000 and stop them
+        docker ps -q --filter "expose=3000" | xargs -r docker stop
+        docker ps -aq --filter "expose=3000" | xargs -r docker rm
 
     - name: Deploy
       run: |
@@ -40,9 +40,10 @@ jobs:
         docker rm orv_container || true
         # Run the new container with the specified volume mounts
         docker run -d --name orv_container \
-          -p 80:80 \
+          -p 3000:3000 \
           -v app_photos:/app/photos \
           -v app_videos:/app/videos \
+          -v ai_models:/ai_models \
           ${{ secrets.DOCKER_USERNAME }}/orv:${{ github.sha }}
 
         # Optional: Clean up - remove unused Docker images
