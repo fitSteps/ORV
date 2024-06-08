@@ -55,7 +55,7 @@ signal.signal(signal.SIGTERM, handle_sigterm)
 signal.signal(signal.SIGINT, handle_sigterm)  # Also handle Ctrl-C gracefully
 
 try:
-    print("Scraping images")
+    print("Scraping images.")
     functions.scrape_images(600, "./scraped_images")
     print("Scraping finished")
     client.connect(MQTT_BROKER, MQTT_PORT, 60)
